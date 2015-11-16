@@ -1,4 +1,4 @@
-FROM java:7
+FROM debian:jessie
 
 # update packages and install maven
 RUN  \
@@ -6,7 +6,7 @@ RUN  \
   sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
   apt-get update && \
   apt-get -y upgrade && \
-  apt-get install -y vim wget curl git maven wget software-properties-common
+  apt-get install -y maven ssh sudo curl 
 
 # Jenkins user
 RUN useradd -m -s /bin/bash jenkins && \
@@ -25,5 +25,5 @@ ADD wrapsshd /usr/sbin/sshd
 RUN chmod +x /usr/sbin/sshd
 
 EXPOSE 22
-VOLUME /var/lib/docker
+#VOLUME /var/lib/docker
 CMD ["/usr/sbin/sshd", "-D"]
