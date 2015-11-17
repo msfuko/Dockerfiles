@@ -14,7 +14,7 @@ RUN useradd -m -s /bin/bash jenkins && \
     chown jenkins:jenkins /home/jenkins/workspace && \
     mkdir -p /home/jenkins/.ssh && \
     chown jenkins:jenkins /home/jenkins/.ssh && \
-    echo jenkins:dcsrd123 | chpasswd && \
+    echo jenkins:jenkins | chpasswd && \
     echo "jenkins ALL=(root) NOPASSWD: ALL" > /etc/sudoers.d/jenkins && \
     chmod 440 /etc/sudoers.d/jenkins
 
