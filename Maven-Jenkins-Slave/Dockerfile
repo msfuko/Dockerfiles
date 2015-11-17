@@ -4,9 +4,8 @@ FROM java:7
 RUN  \
   export DEBIAN_FRONTEND=noninteractive && \
   sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
-  apt-get update && \
-  apt-get -y upgrade && \
-  apt-get install -y git maven ssh sudo curl 
+  apt-get -qqy update && \
+  apt-get install -y git maven ssh sudo curl awscli python-pip
 
 # Jenkins user
 RUN useradd -m -s /bin/bash jenkins && \
@@ -23,6 +22,9 @@ RUN mkdir -p /var/run/sshd && \
     dpkg-divert --add --rename --divert /usr/sbin/sshd.real /usr/sbin/sshd
 ADD wrapsshd /usr/sbin/sshd
 RUN chmod +x /usr/sbin/sshd
+
+# add proxy to maven 
+ADD maven-settings.xml /etc/maven/settings.xml
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
