@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -e
+
+if test -n "$TMPFSSIZE"; then
+    # /!\ /var/lib/docker is a VOLUME
+    mount -t tmpfs -o size=$TMPFSSIZE tmpfs /var/lib/docker
+    for path in /var/lib/postgresql /home/jenkins/workspace; do
+        mv $path /var/lib/docker/jenkins/
+        ln -fsn /var/lib/docker/jenkins/$(basename $path) $path
+    done
+fi
+
+exec /usr/sbin/sshd.real $*
