@@ -1,11 +1,14 @@
 FROM java:7
 
+ENV http_proxy http://prxy.local:8080
+ENV https_proxy http://prxy.local:8080
 # update packages and install maven
 RUN  \
   export DEBIAN_FRONTEND=noninteractive && \
   sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
   apt-get -qqy update && \
-  apt-get install -y git maven ssh sudo curl awscli python-pip
+  apt-get install -y git maven ssh sudo curl awscli python-pip && \
+  easy_install --upgrade pip 
 
 # Jenkins user
 RUN useradd -m -s /bin/bash jenkins && \
